@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Library</title>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome CDN - Kit Code -->
+    <script src="https://kit.fontawesome.com/d81ed1b66c.js" crossorigin="anonymous"></script>
+
+
+    <style>
+        /* Home page */
+        .books {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            max-width: 40rem;
+        }
+
+        .book {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .book a {
+            text-decoration: none;
+            background-color: var(--primary);
+            color: var(--white);
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navigation Section -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/logo.webp" width="70" height="70" alt="Website-Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto nav-title">
+
+                </ul>
+                <img src="assets/images/round.png" id="user-profile" style="border-radius: 50%;" width="30px"
+                    height="30px" alt="">
+            </div>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <main>
+        <section id="home">
+            <div class="container-fluid home-container">
+
+                <div class="text-center home-bg">
+                    <h2 class="home-heading text-center">Department of CSE e-Library</h2>
+                    <h5 class="home-slogan text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Convallis egestas quam facilisis ullamcorper id. Orci ultrices vel cursus ac.</h5>
+                </div>
+
+                <div class="text-center search-container">
+                    <div class="input-group mb-3">
+                        <input type="text" class="query form-control" placeholder="Search Books"
+                            aria-label="Search Books" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" value="search" onclick="fetchBooks()"
+                                type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="books">
+
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="text-center about-container">
+                <h2 class="home-heading text-center">About our Library</h2>
+                <div class="home slogan text-center">The Department Library provides the cognitive and intellectual
+                    pursuit of the department towards academic and research activities.
+                    The library is well equipped with latest collection of books, magazines and reference materials
+                    covering all subjects in the area of computer science.
+                    The library has around 1957 volumes of text books, reference books and complementary sample books.
+                    Books on Artificial Intelligence, Deep Learning, Data Analytics, Advanced computing, Database
+                    Management, Programming and Industry campus connect books from Industries such as Infosys, Novell,
+                    SUSE, Oracle etc are available for lending and as references.
+                    The library has a well-equipped reading facility. Every year the latest books and most recent
+                    editions are procured as per the requests and requirement of the faculty and students.
+                </div>
+
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script type="text/javascript">
+
+        var userDetails = JSON.parse(localStorage.getItem("user"));
+
+        document.getElementById("user-profile").src = userDetails.photoURL;
+
+        console.log(userDetails);
+
+    </script>
+
+    <script type="text/javascript">
+        const books = document.querySelector(".books");
+        const searchQuery = document.querySelector(".query")
+
+        function clearUI() {
+            const book = document.querySelectorAll(".book")
+
+            if (book) {
+                book.forEach(bookItem => {
+                    bookItem.remove()
+                })
+            }
+        }
+
+        async function fetchBooks() {
+            const query = searchQuery.value ? searchQuery.value : "computer science"
+            // if (searchQuery.value === '') {
+            //     alert('Please provide some values')
+            //     return null
+            // }
+
+            clearUI()
+
+            const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
+            const jsonResponse = await res.json()
+            console.log(jsonResponse.items)
+
+            jsonResponse.items.forEach(book => {
+                const bookElement = document.createElement('div');
+                const bookImg = document.createElement('img')
+                const readMore = document.createElement('a')
+
+                bookElement.classList.add("book")
+                bookImg.src = book.volumeInfo.imageLinks.smallThumbnail;
+                readMore.href = book.volumeInfo.previewLink
+                readMore.textContent = 'Read more'
+
+                bookElement.appendChild(bookImg)
+                bookElement.appendChild(readMore)
+                books.appendChild(bookElement)
+
+                // bookElement.src = book.volumeInfo.imageLinks.smallThumbnail;
+            })
+        }
+
+        fetchBooks()
+    </script>
+
+</body>
+
+</html>

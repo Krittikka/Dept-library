@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -29,16 +29,16 @@ nav {
     color: var(--primary);
 }
 
+.login-container{
+    height: 100vh;
+
+}
+
 .heading {
     font-family: var(--title);
     color: var(--primary);
     font-weight: 700;
-    margin-top: 8rem;
-}
-
-.login-container {
-    width: 20rem;
-    padding: 3rem 0 0 0;
+    padding: 1rem;
 }
 
 .submit-btn,
@@ -51,10 +51,10 @@ nav {
     border-color: var(--primary);
 }
 
-.submit-btn:hover {
+/* .submit-btn:hover {
     background-color: var(--blue-shade);
     color: #233C79;
-}
+} */
 
 /* .login-container{
     display: flex;
@@ -66,4 +66,27 @@ nav {
 form {
     color: var(--primary);
     font-weight: 600;
+}
+
+.home-container {
+    height: 100vh;
+    background-color: var(--blue-shade);
+}
+
+.home-heading {
+    padding: 8rem 0 0 0;
+}
+
+.home-slogan {
+    width: 62%;
+    margin: 0 auto;
+    padding: 1.5rem 0 0 0;
+}
+
+.search-container {
+    width: 50%;
+    margin: 2rem auto;
+}
+.about-container{
+    padding: 0 2rem;
 }
